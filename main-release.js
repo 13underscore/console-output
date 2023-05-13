@@ -13,7 +13,7 @@ const maindiv = parser.parseFromString(`
 </div>
 `, "text/html");
 const body = document.getElementsByTagName('body')[0];
-body.appendChild(maindiv.body.firstChild);
+body.insertBefore(maindiv.body.firstChild);
 
 // create a style element
 const style = document.createElement('style');

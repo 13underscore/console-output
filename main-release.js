@@ -2,13 +2,14 @@ const maindiv = document.createElement('div');
 maindiv.setAttribute("id", "console-div");
 const body = document.getElementsByTagName('body')[0];
 body.appendChild(maindiv);
-document.getElementById(`console-div`).appendChild(document.createTextNode(`
-    <h3>Console</h3>
-    <div id="console-output" contenteditable="true"></div>
-    <div class="input-group input-group-lg">
-        <input type="text" class="form-control" id="console-input" data-bs-theme="dark">
-    </div>
-`))
+const parser = new DOMParser();
+const doc1 = parser.parseFromString(`
+<h3>Console</h3>
+<div id="console-output" contenteditable="true"></div>
+<div class="input-group input-group-lg">
+    <input type="text" class="form-control" id="console-input" data-bs-theme="dark">
+</div>
+`, "text/html");
 
 // create a style element
 const style = document.createElement('style');

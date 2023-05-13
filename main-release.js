@@ -1,15 +1,15 @@
-const maindiv = document.createElement('div');
-maindiv.setAttribute("id", "console-div");
-const body = document.getElementsByTagName('body')[0];
-body.appendChild(maindiv);
 const parser = new DOMParser();
-const doc1 = parser.parseFromString(`
-<h3>Console</h3>
-<div id="console-output" contenteditable="true"></div>
-<div class="input-group input-group-lg">
-    <input type="text" class="form-control" id="console-input" data-bs-theme="dark">
+const maindiv = parser.parseFromString(`
+<div id="console-div">
+    <h3>Console</h3>
+    <div id="console-output" contenteditable="true"></div>
+    <div class="input-group input-group-lg">
+        <input type="text" class="form-control" id="console-input" data-bs-theme="dark">
+    </div>
 </div>
 `, "text/html");
+const body = document.getElementsByTagName('body')[0];
+body.appendChild(maindiv.body.firstChild);
 
 // create a style element
 const style = document.createElement('style');

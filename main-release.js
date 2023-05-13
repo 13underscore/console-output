@@ -109,6 +109,7 @@ function MessageAdd(message, color) {
     mesparag.appendChild(document.createTextNode(message));
     mesparag.setAttribute("style", `color: ${color};`);
     console_messages.appendChild(mesparag);
+    console_messages.scrollTop = console_messages.scrollHeight;
 }
 
 // Make the DIV element draggable:

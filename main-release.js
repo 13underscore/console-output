@@ -1,10 +1,12 @@
 const parser = new DOMParser();
 const maindiv = parser.parseFromString(`
 <div id="console-div">
-    <h3>Console</h3>
+    <div id="console-divheader">
+        <h3>Console</h3>
+    </div>
     <div id="console-output" contenteditable="true"></div>
     <div class="input-group input-group-lg">
-        <input type="text" class="form-control" id="console-input" data-bs-theme="dark">
+        <input type="text" class="form-control" id="console-input" data-bs-theme="dark" placeholder=">>> Enter Code">
     </div>
 </div>
 `, "text/html");
@@ -16,24 +18,31 @@ const style = document.createElement('style');
 
 // add the CSS as a string using template literals
 style.appendChild(document.createTextNode(`
-  @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500&display=swap');
-  @import url('https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/css/bootstrap.min.css');
-  #console-div { 
-    font-family: 'Montserrat', sans-serif;
-    color: white;
-    background-color: #232323;
-    width: 46rem;
-    border-radius: 0.5%;
-  }
-  #console-output {
-    height: 18rem;
-    background-color: #323232;
-    border-radius: 0.5%;
-    overflow: auto;
-  }
-  #console-input {
-    font-family: Arial;
-  }`
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500&display=swap');
+@import url('https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/css/bootstrap.min.css');
+#console-div { 
+  font-family: 'Montserrat', sans-serif;
+  color: white;
+  background-color: #232323;
+  width: 46rem;
+  border-radius: 0.5%;
+  position: absolute;
+  z-index: 9;
+}
+#console-output {
+  height: 18rem;
+  background-color: #323232;
+  border-radius: 0.5%;
+  overflow: auto;
+}
+#console-input {
+  font-family: Arial;
+}
+#console-divheader {
+  padding: 10px;
+  cursor: move;
+  z-index: 10;
+}`
 ));
 
 // add it to the head
@@ -74,4 +83,48 @@ function MessageAdd(message, color) {
     mesparag.appendChild(document.createTextNode(message));
     mesparag.setAttribute("style", `color: ${color};`);
     console_messages.appendChild(mesparag);
+}
+
+// Make the DIV element draggable:
+dragElement(document.getElementById("console-div"));
+
+function dragElement(elmnt) {
+  var pos1 = 0, pos2 = 0, pos3 = 0, pos4 = 0;
+  if (document.getElementById(elmnt.id + "header")) {
+    // if present, the header is where you move the DIV from:
+    document.getElementById(elmnt.id + "header").onmousedown = dragMouseDown;
+  } else {
+    // otherwise, move the DIV from anywhere inside the DIV:
+    elmnt.onmousedown = dragMouseDown;
+  }
+
+  function dragMouseDown(e) {
+    e = e || window.event;
+    e.preventDefault();
+    // get the mouse cursor position at startup:
+    pos3 = e.clientX;
+    pos4 = e.clientY;
+    document.onmouseup = closeDragElement;
+    // call a function whenever the cursor moves:
+    document.onmousemove = elementDrag;
+  }
+
+  function elementDrag(e) {
+    e = e || window.event;
+    e.preventDefault();
+    // calculate the new cursor position:
+    pos1 = pos3 - e.clientX;
+    pos2 = pos4 - e.clientY;
+    pos3 = e.clientX;
+    pos4 = e.clientY;
+    // set the element's new position:
+    elmnt.style.top = (elmnt.offsetTop - pos2) + "px";
+    elmnt.style.left = (elmnt.offsetLeft - pos1) + "px";
+  }
+
+  function closeDragElement() {
+    // stop moving when mouse button is released:
+    document.onmouseup = null;
+    document.onmousemove = null;
+  }
 }

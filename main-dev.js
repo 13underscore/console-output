@@ -143,5 +143,8 @@ document.getElementById("console-form").addEventListener("submit", function(even
   event.preventDefault()
   const val = document.getElementById("console-input").value
   MessageAdd("> "+val)
-  eval(val)
+  let res = eval(val)
+  if (res){
+    MessageAdd(res.toString())
+  }
 });

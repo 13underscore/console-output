@@ -30,6 +30,7 @@ style.appendChild(document.createTextNode(`
     border-radius: 0.5%;
     position: absolute;
     z-index: 9;
+    top: 0;
   }
   #console-output {
     height: 18rem;

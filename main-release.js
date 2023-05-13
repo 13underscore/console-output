@@ -29,7 +29,7 @@ style.appendChild(document.createTextNode(`
     width: 46rem;
     border-radius: 0.5%;
     position: absolute;
-    z-index: 9;
+    z-index: 10001;
   }
   #console-output {
     height: 18rem;
@@ -43,7 +43,7 @@ style.appendChild(document.createTextNode(`
   #console-divheader {
     padding: 10px;
     cursor: move;
-    z-index: 10;
+    z-index: 10002;
   }`
 ));
 

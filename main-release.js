@@ -28,7 +28,7 @@ style.appendChild(document.createTextNode(`
     background-color: #232323;
     width: 46rem;
     border-radius: 0.5%;
-    position: absolute;
+    position: fixed;
     z-index: 10001;
   }
   #console-output {

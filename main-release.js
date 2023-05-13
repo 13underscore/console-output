@@ -75,6 +75,32 @@ window.onerror = function (error, source, lineno, colno, errorobj) {
     MessageAdd(`${error}`, "red")
 }
 
+
+const origConsoleWarnLog = console.warn;
+console.warn = (...args) => {
+  origConsoleWarnLog.apply(console, args);
+  MessageAdd(args, "yellow")
+};
+
+console.warn('This message means that the warn logs are currently working.')
+
+
+const origConsoleDebugLog = console.debug;
+console.debug = (...args) => {
+  origConsoleDebugLog.apply(console, args);
+  MessageAdd(args, "gray")
+};
+
+console.debug('This message means that the debug logs are currently working.')
+
+const origConsoleInfoLog = console.info;
+console.info = (...args) => {
+  origConsoleInfoLog.apply(console, args);
+  MessageAdd(args, "blue")
+};
+
+console.info('This message means that the Info logs are currently working.')
+
 // add message to chat:
 function MessageAdd(message, color) {
     var console_messages = document.getElementById("console-output");

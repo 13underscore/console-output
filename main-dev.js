@@ -43,8 +43,7 @@ console.log = (...args) => {
 };
 
 
-console.log('foo');
-console.log('bar', 'baz');
+console.log('This message means that the console logs are currently working.');
 
 const origConsoleErrorLog = console.error;
 console.error = (...args) => {
@@ -53,11 +52,10 @@ console.error = (...args) => {
 };
 
 
-console.error('foo');
-console.error('bar', 'baz');
+console.error('This message means that the error logs are currently working.');
 
-window.onerror = function (error, source, lineno, colno, error) {
-    MessageAdd(error, "red")
+window.onerror = function (error, source, lineno, colno, errorobj) {
+    MessageAdd(`${error}`, "red")
 }
 
 // add message to chat:
@@ -113,3 +111,10 @@ function dragElement(elmnt) {
     document.onmousemove = null;
   }
 }
+
+document.getElementById("console-form").addEventListener("submit", function(event){
+  event.preventDefault()
+  const val = document.getElementById("console-input").value
+  MessageAdd("> "+val)
+  eval(val)
+});

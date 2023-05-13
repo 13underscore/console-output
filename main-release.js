@@ -5,9 +5,11 @@ const maindiv = parser.parseFromString(`
         <h3>Console</h3>
     </div>
     <div id="console-output" contenteditable="true"></div>
-    <div class="input-group input-group-lg">
-        <input type="text" class="form-control" id="console-input" data-bs-theme="dark" placeholder=">>> Enter Code">
-    </div>
+    <form id="console-form">
+        <div class="input-group input-group-lg">
+            <input type="text" class="form-control" id="console-input" data-bs-theme="dark" placeholder=">>> Enter Code" id="console-input">
+        </div>
+    </form>
 </div>
 `, "text/html");
 const body = document.getElementsByTagName('body')[0];
@@ -18,31 +20,31 @@ const style = document.createElement('style');
 
 // add the CSS as a string using template literals
 style.appendChild(document.createTextNode(`
-@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500&display=swap');
-@import url('https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/css/bootstrap.min.css');
-#console-div { 
-  font-family: 'Montserrat', sans-serif;
-  color: white;
-  background-color: #232323;
-  width: 46rem;
-  border-radius: 0.5%;
-  position: absolute;
-  z-index: 9;
-}
-#console-output {
-  height: 18rem;
-  background-color: #323232;
-  border-radius: 0.5%;
-  overflow: auto;
-}
-#console-input {
-  font-family: Arial;
-}
-#console-divheader {
-  padding: 10px;
-  cursor: move;
-  z-index: 10;
-}`
+  @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500&display=swap');
+  @import url('https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/css/bootstrap.min.css');
+  #console-div { 
+    font-family: 'Montserrat', sans-serif;
+    color: white;
+    background-color: #232323;
+    width: 46rem;
+    border-radius: 0.5%;
+    position: absolute;
+    z-index: 9;
+  }
+  #console-output {
+    height: 18rem;
+    background-color: #323232;
+    border-radius: 0.5%;
+    overflow: auto;
+  }
+  #console-input {
+    font-family: Arial;
+  }
+  #console-divheader {
+    padding: 10px;
+    cursor: move;
+    z-index: 10;
+  }`
 ));
 
 // add it to the head
@@ -58,8 +60,7 @@ console.log = (...args) => {
 };
 
 
-console.log('foo');
-console.log('bar', 'baz');
+console.log('This message means that the console logs are currently working.');
 
 const origConsoleErrorLog = console.error;
 console.error = (...args) => {
@@ -68,11 +69,10 @@ console.error = (...args) => {
 };
 
 
-console.error('foo');
-console.error('bar', 'baz');
+console.error('This message means that the error logs are currently working.');
 
-window.onerror = function (error, source, lineno, colno, error) {
-    MessageAdd(error, "red")
+window.onerror = function (error, source, lineno, colno, errorobj) {
+    MessageAdd(`${error}`, "red")
 }
 
 // add message to chat:
@@ -128,3 +128,10 @@ function dragElement(elmnt) {
     document.onmousemove = null;
   }
 }
+
+document.getElementById("console-form").addEventListener("submit", function(event){
+  event.preventDefault()
+  const val = document.getElementById("console-input").value
+  MessageAdd("> "+val)
+  eval(val)
+});
